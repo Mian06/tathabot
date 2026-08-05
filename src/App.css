@@ -348,3 +348,12 @@ body {
   font-size: 0.85rem;
   margin-top: auto;
 }
+
+/* RTL Overrides for Input */
+[dir="rtl"] .search-input {
+  text-align: right;
+}
+
+[dir="rtl"] .input-wrapper {
+  direction: rtl;
+}
