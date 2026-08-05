@@ -1,4 +1,17 @@
 export async function onRequest(context) {
+  // --- START: Step 12 Monitoring Logs ---
+  console.log('📡 [Tathabot] Request received at:', new Date().toISOString());
+  
+  // Clone the request to read the body for logging WITHOUT breaking the original stream
+  try {
+    const clonedBody = await context.request.clone().json();
+    console.log('🔍 Query:', clonedBody.query);
+    console.log('🌐 Lang:', clonedBody.lang || 'en');
+  } catch (e) {
+    console.log('⚠️ Could not parse JSON body for logging.');
+  }
+  // --- END: Monitoring Logs ---
+
   // Only accept POST requests
   if (context.request.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
@@ -9,7 +22,7 @@ export async function onRequest(context) {
     return new Response('Server configuration error', { status: 500 });
   }
 
-  // Parse the user’s JSON body (expects { query: string, lang?: 'ar'|'en' })
+  // Parse the user’s JSON body
   let body;
   try {
     body = await context.request.json();
@@ -23,7 +36,7 @@ export async function onRequest(context) {
     return new Response('Missing or invalid query', { status: 400 });
   }
 
-  // --- FIX 1: Language-Aware System Prompt ---
+  // Language-Aware System Prompt
   const getSystemPrompt = (language) => {
     if (language === 'ar') {
       return 'أنت مساعد بحث مفيد. قدم دائمًا معلومات دقيقة ومحدثة واستشهد بمصادرك. استخدم التنسيق [1]، [2]، إلخ مباشرة بعد المعلومات ذات الصلة للإشارة إلى المصادر المدرجة في النهاية. قم دائمًا بتضمين قسم "المصادر:" في النهاية مع عناوين URL المرقمة.';
@@ -41,7 +54,7 @@ export async function onRequest(context) {
     content: query,
   };
 
-  // --- FIX 2: Upgrade to Sonar Pro ---
+  // Build the request to Perplexity Sonar Pro
   const perplexityReq = {
     model: 'sonar-pro',
     messages: [systemMessage, userMessage],
@@ -77,6 +90,7 @@ export async function onRequest(context) {
       status: response.status,
     });
   } catch (err) {
+    console.error('🔥 Perplexity API Error:', err.message); // <-- Added this for error logging
     return new Response('Error contacting Perplexity API', { status: 502 });
   }
 }
