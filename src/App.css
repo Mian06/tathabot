@@ -192,10 +192,10 @@ body {
   overflow: hidden;
 }
 
-/* Markdown Formatted Text Output */
+/* =======================================================
+   POINT 2 FIX – Dynamic RTL/LTR for answer text
+   ======================================================= */
 .answer-text {
-  direction: ltr;
-  text-align: left;
   line-height: 1.7;
   font-size: 1rem;
   color: #e5e7eb;
@@ -203,10 +203,29 @@ body {
   word-break: break-word;
 }
 
-[dir="rtl"] .answer-text {
+/* English (left-to-right) */
+.answer-text.ltr-text {
   direction: ltr;
   text-align: left;
 }
+
+/* Arabic (right-to-left) */
+.answer-text.rtl-text {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Keep code, pre, tables, and table cells left-to‑right even in RTL mode */
+.answer-text.rtl-text code,
+.answer-text.rtl-text pre,
+.answer-text.rtl-text table,
+.answer-text.rtl-text th,
+.answer-text.rtl-text td {
+  direction: ltr;
+  text-align: left;
+}
+
+/* ===== (Rest of the styles remain unchanged) ===== */
 
 .answer-text p {
   margin-bottom: 1rem;
@@ -349,7 +368,7 @@ body {
   margin-top: auto;
 }
 
-/* RTL Overrides for Input */
+/* RTL Overrides for Input (point 3) */
 [dir="rtl"] .search-input {
   text-align: right;
 }
