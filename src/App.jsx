@@ -59,7 +59,6 @@ function App() {
     setAnswer('');
 
     try {
-      // CHANGED: '/api/proxy' -> '/api/search'
       const response = await fetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -146,7 +145,8 @@ function App() {
             )}
 
             {answer && (
-              <div className="answer-text">
+              // --- FIX: dynamic class based on language ---
+              <div className={`answer-text ${lang === 'ar' ? 'rtl-text' : 'ltr-text'}`}>
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {answer}
                 </ReactMarkdown>
