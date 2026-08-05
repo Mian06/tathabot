@@ -12,6 +12,7 @@ const translations = {
     toggle: 'العربية',
     loading: 'Searching...',
     footer: 'Powered by Perplexity Sonar',
+    disclaimer: 'AI may make mistakes. Verify important information.',
   },
   ar: {
     title: 'تطابوت',
@@ -21,6 +22,7 @@ const translations = {
     toggle: 'English',
     loading: 'جاري البحث...',
     footer: 'مدعوم من Perplexity Sonar',
+    disclaimer: 'قد يخطئ الذكاء الاصطناعي. تحقق من المعلومات المهمة.',
   }
 };
 
@@ -145,9 +147,18 @@ function App() {
             )}
 
             {answer && (
-              // --- FIX: dynamic class based on language ---
               <div className={`answer-text ${lang === 'ar' ? 'rtl-text' : 'ltr-text'}`}>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    // --- FIX: Open source URLs in new tab ---
+                    a: ({ href, children, ...props }) => (
+                      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+                        {children}
+                      </a>
+                    ),
+                  }}
+                >
                   {answer}
                 </ReactMarkdown>
               </div>
@@ -158,6 +169,7 @@ function App() {
 
       <footer className="footer">
         <p>{t.footer}</p>
+        <p className="disclaimer">{t.disclaimer}</p>
       </footer>
     </div>
   );
