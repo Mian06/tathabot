@@ -44,7 +44,7 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  flex-wrap: nowrap; /* Forces everything to stay on one line */
+  flex-wrap: nowrap;
   gap: 0.75rem;
 }
 
@@ -52,8 +52,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  flex-wrap: nowrap; /* Prevents title/badge from wrapping */
-  min-width: 0; /* Allows shrinking if absolutely necessary */
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
 .header h1 {
@@ -61,7 +61,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #ffffff;
-  white-space: nowrap; /* Keeps title from breaking */
+  white-space: nowrap;
 }
 
 .subtitle-badge {
@@ -72,7 +72,7 @@ body {
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 500;
-  white-space: nowrap; /* Keeps badge text from wrapping */
+  white-space: nowrap;
 }
 
 .lang-toggle-btn {
@@ -85,7 +85,7 @@ body {
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  white-space: nowrap; /* Keeps button text from wrapping */
+  white-space: nowrap;
 }
 
 .lang-toggle-btn:hover {
@@ -93,32 +93,9 @@ body {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Mobile responsive adjustments for the header */
-@media (max-width: 480px) {
-  .header h1 {
-    font-size: 1.25rem;
-  }
-  .subtitle-badge {
-    font-size: 0.6rem;
-    padding: 0.15rem 0.5rem;
-  }
-  .lang-toggle-btn {
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
-  }
-  .brand-group {
-    gap: 0.4rem;
-  }
-  .header {
-    gap: 0.4rem;
-  }
-}
-
 /* =======================================================
-   END OF HEADER FIX
+   MAIN CONTENT
    ======================================================= */
-
-/* Main Area Flex Setup */
 .main-content {
   display: flex;
   flex-direction: column;
@@ -142,7 +119,9 @@ body {
   margin-top: 2rem;
 }
 
-/* Search Input Form */
+/* =======================================================
+   SEARCH INPUT FORM – Button stays inside on mobile
+   ======================================================= */
 .search-form {
   width: 100%;
   transition: transform 0.3s ease;
@@ -150,6 +129,7 @@ body {
 
 .input-wrapper {
   display: flex;
+  flex-wrap: nowrap;
   gap: 0.75rem;
   background: var(--input-bg);
   border: 1px solid var(--input-border);
@@ -165,7 +145,8 @@ body {
 }
 
 .search-input {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   background: transparent;
   border: none;
   outline: none;
@@ -179,6 +160,7 @@ body {
 }
 
 .search-button {
+  flex-shrink: 0;
   background: var(--accent-color);
   color: #ffffff;
   border: none;
@@ -209,7 +191,9 @@ body {
   gap: 0.5rem;
 }
 
-/* Response Box */
+/* =======================================================
+   RESPONSE CARD
+   ======================================================= */
 .response-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -227,7 +211,7 @@ body {
 }
 
 /* =======================================================
-   ANSWER TEXT – Dynamic RTL/LTR (Point 2 from earlier)
+   ANSWER TEXT – Dynamic RTL/LTR
    ======================================================= */
 .answer-text {
   line-height: 1.7;
@@ -249,7 +233,7 @@ body {
   text-align: right;
 }
 
-/* Keep code, pre, tables, and table cells left-to‑right even in RTL mode */
+/* Keep code, pre, tables, and table cells left-to-right even in RTL mode */
 .answer-text.rtl-text code,
 .answer-text.rtl-text pre,
 .answer-text.rtl-text table,
@@ -259,8 +243,9 @@ body {
   text-align: left;
 }
 
-/* ===== (Rest of the styles remain unchanged) ===== */
-
+/* =======================================================
+   MARKDOWN CONTENT STYLES
+   ======================================================= */
 .answer-text p {
   margin-bottom: 1rem;
 }
@@ -274,7 +259,7 @@ body {
   font-weight: 600;
 }
 
-/* Table Styling */
+/* Tables */
 .answer-text table {
   width: 100%;
   border-collapse: collapse;
@@ -310,7 +295,7 @@ body {
 }
 
 /* Lists */
-.answer-text ul, 
+.answer-text ul,
 .answer-text ol {
   margin: 0.75rem 0 1rem 1.5rem;
   color: #d1d5db;
@@ -320,7 +305,7 @@ body {
   margin-bottom: 0.4rem;
 }
 
-/* Inline & Block Code */
+/* Code */
 .answer-text code {
   background: rgba(0, 0, 0, 0.4);
   color: #93c5fd;
@@ -345,15 +330,17 @@ body {
   color: #e5e7eb;
 }
 
-.answer-text h1, 
-.answer-text h2, 
+.answer-text h1,
+.answer-text h2,
 .answer-text h3 {
   color: #ffffff;
   margin: 1.25rem 0 0.75rem 0;
   font-weight: 600;
 }
 
-/* Loading Spinners */
+/* =======================================================
+   LOADING SPINNERS
+   ======================================================= */
 .loading-container {
   margin: auto;
 }
@@ -394,7 +381,7 @@ body {
 }
 
 /* =======================================================
-   FOOTER – Added Disclaimer Line
+   FOOTER – With Disclaimer Line
    ======================================================= */
 .footer {
   text-align: center;
@@ -411,11 +398,52 @@ body {
   color: var(--text-muted);
 }
 
-/* RTL Overrides for Input (point 3) */
+/* =======================================================
+   RTL OVERRIDES FOR INPUT
+   ======================================================= */
 [dir="rtl"] .search-input {
   text-align: right;
 }
 
 [dir="rtl"] .input-wrapper {
   direction: rtl;
+}
+
+/* =======================================================
+   MOBILE RESPONSIVE ADJUSTMENTS
+   ======================================================= */
+
+/* Header adjustments for small screens */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.25rem;
+  }
+  .subtitle-badge {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+  }
+  .lang-toggle-btn {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+  }
+  .brand-group {
+    gap: 0.4rem;
+  }
+  .header {
+    gap: 0.4rem;
+  }
+
+  /* Input wrapper adjustments – keeps button INSIDE the box */
+  .input-wrapper {
+    gap: 0.4rem;
+    padding: 0.3rem;
+  }
+  .search-input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+  .search-button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
 }
